@@ -7,7 +7,7 @@ Can activate/deactivate individual skin mods - when deactivating, it will remove
 
 ### Import compatibility
 The tool with be able to import a folder/archive if in it:
-* a folder called <heroname>_<letter> is found at any level, e.g. "arbalest_N" -> tool will understand that this is a hero skin, will deploy relevant files under "heroes/arbalest/..."
+* a folder called `<heroname>_<letter>` is found at any level, e.g. `arbalest_N` -> tool will understand that this is a hero skin, will deploy relevant files under "heroes/arbalest/..."
 * folders called "heroes" or "campaign" are present at any level -> these will be deployed as-is under the game folder
 
 ### How to run
