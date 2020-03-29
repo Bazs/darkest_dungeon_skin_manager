@@ -1,7 +1,6 @@
 import argparse
 import json
 import os
-import tkinter
 from pathlib import Path
 
 from gui import start_gui
@@ -21,10 +20,6 @@ def parse_configuration():
     with open(configuration_file_relative_path) as config_file:
         configuration = json.load(config_file)
         return configuration
-
-
-def load_gui():
-    tkinter.Tk("Darkest Dungeon Skin Mangaer")
 
 
 if __name__ == "__main__":
