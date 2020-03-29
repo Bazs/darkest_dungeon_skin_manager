@@ -28,8 +28,10 @@ if __name__ == "__main__":
     argument_parser.add_argument("-g", "--game_steam_folder",
                                  help="The steamapps folder where Darkest Dungeon is installed", required=True,
                                  type=Path)
-    argument_parser.add_argument("-m", "--manager_folder", help="The folder where the skin manager stores the skins"
-                                                                "and intermediate files", required=True, type=Path)
+    argument_parser.add_argument("-m", "--manager_folder", help="The folder where the skin manager will store the skins"
+                                                                "and intermediate files. Don't manually edit the "
+                                                                "contents within, and keep this argument constant "
+                                                                "across multiple invocations", required=True, type=Path)
     arguments = argument_parser.parse_args()
     validate_command_line_arguments(arguments)
     configuration = parse_configuration()
