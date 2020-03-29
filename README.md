@@ -1,7 +1,7 @@
 ## Darkest Dungeon Skin Manager
 
 Can import skins and town portraits/other illustrations from .zip archives or folders. Will try to determine if it's a 
-hero skin, or other illustration on import, and then will store the files under it's own repository folder.
+hero skin or other illustration on import, and will store the files in a homogenized form insdie its own repository folder.
 
 Can activate/deactivate individual skin mods - when deactivating, it will remove any additional files, and restore the original artwork, if any was overwritten.
 
