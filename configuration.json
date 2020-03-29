@@ -1,7 +1,9 @@
 {
   "moddable_folders":[
+    "campaign",
     "heroes",
-    "campaign"
+    "monsters",
+    "panels"
   ]
 
 }
