@@ -48,6 +48,9 @@ class MainWindowModel:
     def get_active_mod_names(self):
         return self.master_manifest.active_mods
 
+    def get_deployed_mod_names(self):
+        return self.master_manifest.deployed_mods
+
     def add_mod(self, mod_name: str, mod_content_folder: Path):
         new_mod_folder = self.managed_mods_folder / mod_name
         if new_mod_folder.is_file() or new_mod_folder.is_dir():
@@ -62,7 +65,6 @@ class MainWindowModel:
         assert mod_folder.is_dir(), "Mod is not managed"
 
         self.master_manifest.active_mods.append(mod_name)
-        self._deploy_mods()
         persist_master_manifest(self.mod_manager_folder, self.master_manifest)
 
     def deactivate_mod(self, mod_name: str):
@@ -71,10 +73,9 @@ class MainWindowModel:
         assert mod_folder.is_dir(), "Mod is not managed"
 
         self.master_manifest.active_mods.remove(mod_name)
-        self._deploy_mods()
         persist_master_manifest(self.mod_manager_folder, self.master_manifest)
 
-    def _deploy_mods(self):
+    def deploy_mods(self):
         self._restore_untouched_game_folder()
 
         for active_mod_name in self.get_active_mod_names():
@@ -92,6 +93,10 @@ class MainWindowModel:
             shutil.rmtree(str(self.mod_staging_folder))
             self._ensure_directory_exists(self.mod_staging_folder)
             raise RuntimeError(e)
+
+        self.master_manifest.deployed_mods.clear()
+        self.master_manifest.deployed_mods.extend(self.get_active_mod_names())
+        persist_master_manifest(self.mod_manager_folder, self.master_manifest)
 
     def _create_backup(self, files_to_be_deployed: List[str]):
         files_to_backup = [Path(file) for file in files_to_be_deployed if Path(file).is_file()]
@@ -242,6 +247,9 @@ class MainWindow(tkinter.Frame):
         self.deactivate_mod_button = tkinter.Button(self.buttons_frame, text="Dectivate mod",
                                                     command=self._deactivate_mod)
         self.deactivate_mod_button.pack()
+        self.deploy_mods_button = tkinter.Button(self.buttons_frame, text="Deploy mods",
+                                                 command=self._deploy_mods)
+        self.deploy_mods_button.pack()
         self.quit_button = tkinter.Button(self.buttons_frame, text="Quit", command=self.master.destroy)
         self.quit_button.pack()
         self.buttons_frame.pack(side=tkinter.BOTTOM)
@@ -313,4 +321,11 @@ class MainWindow(tkinter.Frame):
         except RuntimeError as e:
             tkinter.messagebox.showerror("Error",
                                          "Could not activate mod {}, {}".format(self.selected_managed_mod, str(e)))
+        self._refresh()
+
+    def _deploy_mods(self):
+        try:
+            self.model.deploy_mods()
+        except RuntimeError as e:
+            tkinter.messagebox.showerror("Error", "Could not deploy mods {}".format(str(e)))
         self._refresh()

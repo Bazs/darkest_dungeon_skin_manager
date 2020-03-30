@@ -1,6 +1,7 @@
 {
   "moddable_folders":[
     "campaign",
+    "fe_flow",
     "heroes",
     "monsters",
     "panels"
