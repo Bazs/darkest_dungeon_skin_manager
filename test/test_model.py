@@ -6,6 +6,7 @@ from typing import List
 from gui import MainWindowModel
 from master_manifest import load_master_manifest, MasterManfiest
 
+
 class TestModel(unittest.TestCase):
     MANAGED_MODS_SUBFOLDER_NAME = "managed_mods"
     MOD_CONTENTS_SUBFOLDER_NAME = "_mod_contents"
