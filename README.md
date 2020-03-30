@@ -1,4 +1,4 @@
-## Darkest Dungeon Skin Manager [![Build Status](https://travis-ci.com/Bazs/darkest_dungeon_skin_manager.svg?branch=master)](https://travis-ci.com/Bazs/darkest_dungeon_skin_manager)
+## Darkest Dungeon Skin Manager [![Build Status](https://travis-ci.org/Bazs/darkest_dungeon_skin_manager.svg?branch=master)](https://travis-ci.com/Bazs/darkest_dungeon_skin_manager)
 
 Can import skins and town portraits/other illustrations from .zip archives or folders. Will try to determine if it's a 
 hero skin or other illustration on import, and will store the files in a homogenized form insdie its own repository folder.
