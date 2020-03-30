@@ -19,6 +19,13 @@ To start the tool, run the `main.py` script, run it with -h for command line arg
 Add mods from folders or archives with the corresponding buttons. Then they'll appear in the Managed Mods list.
 Select a managed mods and click Activate mod to activate it. It'll appear in the Active mods list. This does not deploy
 anything to the game folder yet.
+
+Managed mods, which are not currently active have a white background. Active managed mods have a green background.
+
 To deploy the currently selected list of active mods, click Deploy mods. Deploy mods will also remove mods, which were
 deployed before, but are no longer in the active mods list, e.g. if all active mods are deactivated, then Deploy mods
 will restore the game folder to its original state.
+
+The Deploy mods button will have a bold font, if the currently active list of mods is different from the list of 
+deployed mods, i.e. when you have to deploy to apply your changes. Active but not yet deployed mods have a blue
+background in the Active mods list.

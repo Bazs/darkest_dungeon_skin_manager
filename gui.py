@@ -6,6 +6,7 @@ import re
 import tkinter
 import tkinter.messagebox
 import tkinter.filedialog
+import tkinter.font
 import tkinter.simpledialog
 import tempfile
 from typing import Dict, List
@@ -163,6 +164,7 @@ class MainWindow(tkinter.Frame):
     def __init__(self, model: MainWindowModel, master=None):
         super().__init__(master)
         self.master = master
+        self.master.geometry("1000x500")
         self.master.title("Darkest Dungeon Mod Manager")
         self.model = model
 
@@ -170,16 +172,27 @@ class MainWindow(tkinter.Frame):
         self.selected_activated_mod = None
 
         self._create_widgets()
-        self.pack()
+        self.pack(fill="both", expand=True)
 
         self._refresh()
 
     def _refresh(self):
-        self.managed_mods_listvar.set(self.model.get_managed_mod_names())
-        self.active_mods_listvar.set(self.model.get_active_mod_names())
+        managed_mods = self.model.get_managed_mod_names()
+        self.managed_mods_listvar.set(managed_mods)
+        active_mods = self.model.get_active_mod_names()
+        self.active_mods_listvar.set(active_mods)
+
+        for i, managed_mod in enumerate(managed_mods):
+            color = "pale green" if managed_mod in active_mods else "white"
+            self.managed_mods_listbox.itemconfig(i, {"bg": color})
+
+        deployed_mods = self.model.get_deployed_mod_names()
+        for i, active_mod in enumerate(active_mods):
+            color = "pale green" if active_mod in deployed_mods else "sky blue"
+            self.active_mods_listbox.itemconfig(i, {"bg": color})
 
         activate_mod_button_state = "disabled"
-        if self.selected_managed_mod is not None and self.selected_managed_mod not in self.model.get_active_mod_names():
+        if self.selected_managed_mod is not None and self.selected_managed_mod not in active_mods:
             activate_mod_button_state = "normal"
         self.activate_mod_button.config(state=activate_mod_button_state)
 
@@ -187,6 +200,11 @@ class MainWindow(tkinter.Frame):
         if self.selected_activated_mod is not None:
             deactivate_mod_button_state = "normal"
         self.deactivate_mod_button.config(state=deactivate_mod_button_state)
+
+        deploy_button_font_weight = tkinter.font.NORMAL if set(deployed_mods) == set(active_mods) else tkinter.font.BOLD
+        deploy_button_font = tkinter.font.nametofont("TkDefaultFont").copy()
+        deploy_button_font.configure(weight=deploy_button_font_weight)
+        self.deploy_mods_button.config(font=deploy_button_font)
 
     def _on_managed_mod_selected(self, evt):
         selected_listbox = evt.widget
@@ -214,12 +232,12 @@ class MainWindow(tkinter.Frame):
         self.managed_mods_listbox = tkinter.Listbox(self.managed_mods_frame, listvariable=self.managed_mods_listvar,
                                                     selectmode=tkinter.SINGLE)
         self.managed_mods_listbox.bind('<<ListboxSelect>>', self._on_managed_mod_selected)
-        self.managed_mods_listbox.pack(side=tkinter.LEFT)
+        self.managed_mods_listbox.pack(side=tkinter.LEFT, fill="both", expand=True)
         self.managed_mods_scrollbar = tkinter.Scrollbar(self.managed_mods_frame, orient="vertical")
         self.managed_mods_scrollbar.config(command=self.managed_mods_listbox.yview)
         self.managed_mods_scrollbar.pack(side=tkinter.RIGHT, fill="y")
         self.managed_mods_listbox.config(yscrollcommand=self.managed_mods_scrollbar.set)
-        self.managed_mods_frame.pack(side=tkinter.LEFT)
+        self.managed_mods_frame.pack(side=tkinter.LEFT,  fill="both", expand=True)
 
         self.active_mods_frame = tkinter.Frame(self)
         self.active_mods_title = tkinter.Label(self.active_mods_frame, text="Active mods")
@@ -228,12 +246,12 @@ class MainWindow(tkinter.Frame):
         self.active_mods_listbox = tkinter.Listbox(self.active_mods_frame, listvariable=self.active_mods_listvar,
                                                    selectmode=tkinter.SINGLE)
         self.active_mods_listbox.bind('<<ListboxSelect>>', self._on_activated_mod_selected)
-        self.active_mods_listbox.pack(side=tkinter.LEFT)
+        self.active_mods_listbox.pack(side=tkinter.LEFT, fill="both", expand=True)
         self.active_mods_scrollbar = tkinter.Scrollbar(self.active_mods_frame, orient="vertical")
         self.active_mods_scrollbar.config(command=self.active_mods_listbox.yview)
         self.active_mods_scrollbar.pack(side=tkinter.RIGHT, fill="y")
         self.active_mods_listbox.config(yscrollcommand=self.active_mods_scrollbar.set)
-        self.active_mods_frame.pack(side=tkinter.RIGHT)
+        self.active_mods_frame.pack(side=tkinter.RIGHT, fill="both", expand=True)
 
         self.buttons_frame = tkinter.Frame(self)
         self.add_mod_from_archive_button = tkinter.Button(self.buttons_frame, text="Add Mod from Archive",

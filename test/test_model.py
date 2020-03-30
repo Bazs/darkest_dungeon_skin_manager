@@ -107,6 +107,8 @@ class TestModel(unittest.TestCase):
         deployed_file = self.game_folder / "heroes" / hero_file
         backup_file = self.mod_manager_folder / self.BACKUP_FOLDER_NAME / "heroes" / hero_file
 
+        master_manifest = load_master_manifest(self.mod_manager_folder)
+        self.assertTrue(mod_name in master_manifest.deployed_mods)
         self.assertTrue(mod_name in self.model.get_deployed_mod_names())
         self.assertTrue(deployed_file.is_file())
         self.assertEqual(0, deployed_file.stat().st_size)
@@ -120,6 +122,8 @@ class TestModel(unittest.TestCase):
 
         self.model.deploy_mods()
 
+        master_manifest = load_master_manifest(self.mod_manager_folder)
+        self.assertFalse(mod_name in master_manifest.deployed_mods)
         self.assertFalse(mod_name in self.model.get_deployed_mod_names())
         self.assertNotEqual(0, deployed_file.stat().st_size)
         self.assertFalse(backup_file.is_file())
