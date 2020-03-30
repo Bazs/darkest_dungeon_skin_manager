@@ -1,4 +1,4 @@
-## Darkest Dungeon Skin Manager
+## Darkest Dungeon Skin Manager [![Build Status](https://travis-ci.com/Bazs/darkest_dungeon_skin_manager.svg?branch=master)](https://travis-ci.com/Bazs/darkest_dungeon_skin_manager)
 
 Can import skins and town portraits/other illustrations from .zip archives or folders. Will try to determine if it's a 
 hero skin or other illustration on import, and will store the files in a homogenized form insdie its own repository folder.
@@ -16,9 +16,9 @@ The tool with be able to import a folder/archive if in it:
 To start the tool, run the `main.py` script, run it with -h for command line arguments.
 
 ### Usage
-Add mods from folders or archives with the corresponding button. Then they'll appear in the Managed Mods list.
+Add mods from folders or archives with the corresponding buttons. Then they'll appear in the Managed Mods list.
 Select a managed mods and click Activate mod to activate it. It'll appear in the Active mods list. This does not deploy
 anything to the game folder yet.
 To deploy the currently selected list of active mods, click Deploy mods. Deploy mods will also remove mods, which were
-deployed before, but are no longer in the active mods list, e.g. if all active mods are deactivated, then Deploy Mods
+deployed before, but are no longer in the active mods list, e.g. if all active mods are deactivated, then Deploy mods
 will restore the game folder to its original state.
